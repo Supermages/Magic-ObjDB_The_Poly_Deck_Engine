@@ -1,3 +1,4 @@
+
 # TIPUS | NOM | DESCRIPCIO | RARESA | COST_MANA (Blau,Negre,Vermell,Verd,Blanc,Incolor) | ATRIBUTS_ESPECIFICS
 # ---------------------------------------------------------------------------------------------------------
 # CRIATURES: Nom | Desc | Raresa | Cost | Força | Resistència | Tipus | Vola
