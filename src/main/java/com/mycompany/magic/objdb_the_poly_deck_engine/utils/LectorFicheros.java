@@ -1,13 +1,18 @@
 package com.mycompany.magic.objdb_the_poly_deck_engine.utils;
 
-import com.mycompany.magic.objdb_the_poly_deck_engine.model.*;
-import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.*;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Carta;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.CosteMana;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Criatura;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Encantamiento;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Tierra;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Color;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Rareza;
 
 public class LectorFicheros {
 
@@ -63,18 +68,20 @@ public class LectorFicheros {
         String edicioDefecte = "Core Set 2026";
 
         switch (tipus) {
-            case "CRIATURA":
-                return new Criatura(nom, desc, raresa, edicioDefecte, parsejarCost(dades[4]), 
-                                    Integer.parseInt(dades[5]), Integer.parseInt(dades[6]), 
-                                    dades[7], Boolean.parseBoolean(dades[8]));
-            case "TERRA":
-                return new Tierra(nom, desc, raresa, edicioDefecte, new CostMana(0,0,0,0,0,0), 
-                                 Color.valueOf(dades[4].toUpperCase()), Boolean.parseBoolean(dades[5]));
-            case "ENCANTERI":
-                return new Encantamiento(nom, desc, raresa, edicioDefecte, parsejarCost(dades[4]), 
-                                     dades[5], Boolean.parseBoolean(dades[6]));
-            default:
-                throw new IllegalArgumentException("Tipus de carta desconegut: " + tipus);
+            case "CRIATURA" -> {
+                return new Criatura(nom, desc, raresa, edicioDefecte, parsejarCost(dades[4]),
+                        Integer.parseInt(dades[5]), Integer.parseInt(dades[6]),
+                        dades[7], Boolean.parseBoolean(dades[8]));
+            }
+            case "TERRA" -> {
+                return new Tierra(nom, desc, raresa, edicioDefecte, new CosteMana(0,0,0,0,0,0),
+                        Color.valueOf(dades[4].toUpperCase()), Boolean.parseBoolean(dades[5]));
+            }
+            case "ENCANTERI" -> {
+                return new Encantamiento(nom, desc, raresa, edicioDefecte, parsejarCost(dades[4]),
+                        dades[5], Boolean.parseBoolean(dades[6]));
+            }
+            default -> throw new IllegalArgumentException("Tipus de carta desconegut: " + tipus);
         }
     }
 

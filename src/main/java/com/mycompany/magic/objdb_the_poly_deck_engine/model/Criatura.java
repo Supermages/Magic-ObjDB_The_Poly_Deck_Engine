@@ -8,7 +8,11 @@ public class Criatura extends Carta{
     private String type;
     private boolean flying;
 
-    public Criatura(int strength, int resistence, String type, boolean flying, String nom, String descripcio, Rareza rareza, String edicion, CosteMana coste) {
+    public Criatura() {
+        super();
+    }
+
+    public Criatura(String nom, String descripcio, Rareza rareza, String edicion, CosteMana coste,int strength, int resistence, String type, boolean flying) {
         super(nom, descripcio, rareza, edicion, coste);
         this.strength = strength;
         this.resistence = resistence;
