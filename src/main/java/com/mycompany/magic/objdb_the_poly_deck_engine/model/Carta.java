@@ -33,7 +33,6 @@ public abstract class Carta {
     @Embedded
     private CosteMana coste; 
 
-    // Constructor vacío obligatorio para JPA
     public Carta() {}
 
     public Carta(String nom, String descripcio, Rareza rareza, String edicion, CosteMana coste) {
@@ -46,7 +45,6 @@ public abstract class Carta {
 
     // Getters y Setters
     public Long getId() { return id; }
-    // No solemos poner setId porque lo genera la BD
 
     public String getNom() { return nom; }
     public void setNom(String nom) { this.nom = nom; }
