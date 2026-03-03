@@ -1,15 +1,17 @@
 package com.mycompany.magic.objdb_the_poly_deck_engine.model;
 
+import javax.persistence.Embeddable;
 
+@Embeddable
 public class CosteMana {
     
     // Los colores del maná según el documento de diseño
-    private int blanc;   //
-    private int blau;    //
-    private int negre;   //
-    private int vermell; //
-    private int verd;    //
-    private int incolor; //
+    private int blanc;   
+    private int blau;    
+    private int negre;   
+    private int vermell; 
+    private int verd;  
+    private int incolor; 
 
     // Constructor vacío obligatorio para JPA
     public CosteMana() {}

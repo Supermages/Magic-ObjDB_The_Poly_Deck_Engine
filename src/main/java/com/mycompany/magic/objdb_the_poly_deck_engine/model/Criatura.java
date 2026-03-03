@@ -1,7 +1,9 @@
 package com.mycompany.magic.objdb_the_poly_deck_engine.model;
+import javax.persistence.Entity;
 
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Rareza;
 
+@Entity
 public class Criatura extends Carta{
     private int strength;
     private int resistence;
@@ -51,6 +53,9 @@ public class Criatura extends Carta{
     public void setFlying(boolean flying) {
         this.flying = flying;
     }
-    
+      @Override
+    public String toString() {
+        return "Criatura [" + super.getNom() + "] - Tipus: " + type + " (Voladora: " + flying + ")";
+    }
     
 }

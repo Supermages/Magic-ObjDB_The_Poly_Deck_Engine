@@ -3,8 +3,10 @@ package com.mycompany.magic.objdb_the_poly_deck_engine.manager;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.Carta;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Encantamiento;
 import com.mycompany.magic.objdb_the_poly_deck_engine.utils.LectorFicheros;
 
 public class GestorCartas {
@@ -48,6 +50,98 @@ public class GestorCartas {
                 em.getTransaction().rollback();
             }
         }
+    }
+
+    // =========================================================================
+    // OPERACIÓ READ: CONSULTES BÀSIQUES I CACHÉ L1 
+    // =========================================================================
+
+    /**
+     * Tasca A (ID): Demostra la Garantia d'Identitat de la Caché L1 [cite: 305-307]
+     */
+    public Carta buscarPerId(long id) {
+        Carta c1 = em.find(Carta.class, id);
+        Carta c2 = em.find(Carta.class, id);
+        
+        // Si la caché L1 funciona, ObjectDB no va a disco 2 veces. 
+        // Devuelve exactamente el mismo espacio en memoria.
+        if (c1 == c2) {
+            System.out.println("Garantia d'Identitat confirmada: c1 i c2 són la mateixa instància en memòria[cite: 307].");
+        }
+        return c1;
+    }
+
+    // =========================================================================
+    // OPERACIÓ READ: CONSULTES POLIMÒRFIQUES AVANÇADES (JPQL)
+    // =========================================================================
+
+    /**
+     * Consulta 1: Filtre de Subclasse [cite: 309]
+     * "Mostra el nom de totes les Criatures que volen i tenen cost negre > 2" 
+     */
+    public List<String> buscarNomsCriaturesVoladoresFosques() {
+        // En JPQL consultamos la clase 'Criatura', no tablas SQL. Accedemos a 'cost.negre' directamente.
+        String jpql = "SELECT c.nom FROM Criatura c WHERE c.vola = true AND c.cost.negre > 2";
+        TypedQuery<String> query = em.createQuery(jpql, String.class);
+        return query.getResultList();
+    }
+
+    /**
+     * Consulta 2: Navegació "Deep Path" i Agregació [cite: 314]
+     * "Mitjana de força de les criatures als mazos d'un jugador concret" [cite: 315]
+     */
+    public Double calcularMitjanaForcaCriaturesJugador(String nickJugador) {
+        // Navegamos: Jugador -> Mazo -> Carta. Filtramos por tipo Criatura para poder leer 'forca'.
+        String jpql = "SELECT AVG(c.forca) FROM Jugador j JOIN j.mazos m JOIN m.cartes c " +
+                      "WHERE j.nick = :nick AND TYPE(c) = Criatura";
+        
+        TypedQuery<Double> query = em.createQuery(jpql, Double.class);
+        query.setParameter("nick", nickJugador);
+        
+        Double mitjana = query.getSingleResult();
+        return mitjana != null ? mitjana : 0.0;
+    }
+
+    /**
+     * Consulta 3: Cerca per Component Incrustat (@Embedded) [cite: 317]
+     * "Encanteris que no costen blau ni blanc (0), però incolor > 3" [cite: 318]
+     */
+    public List<Encantamiento> buscarEncanterisIncolorsCars() {
+        // Accedemos a los atributos del @Embeddable 'CostMana' desde la entidad principal [cite: 319]
+        String jpql = "SELECT e FROM Encantamiento e WHERE e.cost.blau = 0 AND e.cost.blanc = 0 AND e.cost.incolor > 3";
+        TypedQuery<Encantamiento> query = em.createQuery(jpql, Encantamiento.class);
+        return query.getResultList();
+    }
+
+    // =========================================================================
+    // TESTING: COMPROVACIÓ DE CÀRREGA DE DADES
+    // =========================================================================
+
+    /**
+     * Recupera absolutament totes les cartes de la BD per comprovar l'import.
+     * Demostra el polimorfisme de JPA: Retornarà Criatures, Terres i Encanteris barrejats.
+     */
+    public List<Carta> testLlistarTotesLesCartes() {
+        System.out.println("\n=== TESTING: LLISTANT TOTES LES CARTES DE LA BD ===");
+        
+        // Consulta JPQL ultra-neta. Fes atenció a que no hi ha JOINs.
+        String jpql = "SELECT c FROM Carta c";
+        
+        // TypedQuery ens evita haver de fer (List<Carta>) i suprimir warnings
+        List<Carta> totes = em.createQuery(jpql, Carta.class).getResultList();
+        
+        if (totes.isEmpty()) {
+            System.out.println("No s'ha trobat cap carta a la base de dades. L'import ha fallat?");
+        } else {
+            for (Carta c : totes) {
+                // Al cridar c.toString(), Java executarà l'override de la filla corresponent!
+                System.out.println(c.getClass().getSimpleName() + " -> " + c.toString());
+            }
+            System.out.println("Total de cartes trobades: " + totes.size());
+        }
+        System.out.println("===================================================\n");
+        
+        return totes;
     }
     
 }
