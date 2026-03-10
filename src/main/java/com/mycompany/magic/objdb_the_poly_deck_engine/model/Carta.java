@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Rareza;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Raresa;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) 
@@ -26,21 +26,21 @@ public abstract class Carta {
     private String descripcio;
 
     @Enumerated(EnumType.STRING)
-    private Rareza rareza; 
+    private Raresa raresa; 
 
-    private String edicion; 
+    private String edicio; 
 
     @Embedded
-    private CosteMana coste; 
+    private CostMana cost; 
 
     public Carta() {}
 
-    public Carta(String nom, String descripcio, Rareza rareza, String edicion, CosteMana coste) {
+    public Carta(String nom, String descripcio, Raresa raresa, String edicio, CostMana coste) {
         this.nom = nom;
         this.descripcio = descripcio;
-        this.rareza = rareza;
-        this.edicion = edicion;
-        this.coste = coste;
+        this.raresa = raresa;
+        this.edicio = edicio;
+        this.cost = coste;
     }
 
     // Getters y Setters
@@ -52,14 +52,14 @@ public abstract class Carta {
     public String getDescripcio() { return descripcio; }
     public void setDescripcio(String descripcio) { this.descripcio = descripcio; }
 
-    public Rareza getRareza() { return rareza; }
-    public void setRareza(Rareza rareza) { this.rareza = rareza; }
+    public Raresa getRaresa() { return raresa; }
+    public void setRaresa(Raresa raresa) { this.raresa = raresa; }
 
-    public String getEdicion() { return edicion; }
-    public void setEdicion(String edicion) { this.edicion = edicion; }
+    public String getEdicio() { return edicio; }
+    public void setEdicio(String edicio) { this.edicio = edicio; }
 
-    public CosteMana getCoste() { return coste; }
-    public void setCoste(CosteMana coste) { this.coste = coste; }
+    public CostMana getCoste() { return cost; }
+    public void setCoste(CostMana coste) { this.cost = coste; }
 
     @Override
     public String toString() {
@@ -68,9 +68,9 @@ public abstract class Carta {
         + "║  " + String.format("%-36s", nom) + "║\n"
         + "╠══════════════════════════════════════╣\n"
         + "║  Id      : " + String.format("%-26s", (id == null ? "" : id.toString())) + "║\n"
-        + "║  Edició : " + String.format("%-27s", edicion) + "║\n"
-        + "║  Raresa : " + String.format("%-27s", rareza) + "║\n"
-        + "║  Cost   : " + String.format("%-27s", coste) + "║\n"
+        + "║  Edició : " + String.format("%-27s", edicio) + "║\n"
+        + "║  Raresa : " + String.format("%-27s", raresa) + "║\n"
+        + "║  Cost   : " + String.format("%-27s", cost) + "║\n"
         + "╠══════════════════════════════════════╣\n";
 
         if (descripcio != null && !descripcio.isEmpty()) {

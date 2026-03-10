@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.Carta;
-import com.mycompany.magic.objdb_the_poly_deck_engine.model.CosteMana;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.CostMana;
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.Criatura;
-import com.mycompany.magic.objdb_the_poly_deck_engine.model.Encantamiento;
-import com.mycompany.magic.objdb_the_poly_deck_engine.model.Tierra;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Encanteri;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Terra;
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Color;
-import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Rareza;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Raresa;
 
 public class LectorFicheros {
 
@@ -64,7 +64,7 @@ public class LectorFicheros {
         String tipus = dades[0];
         String nom = dades[1];
         String desc = dades[2];
-        Rareza raresa = Rareza.valueOf(dades[3].toUpperCase());
+        Raresa raresa = Raresa.valueOf(dades[3].toUpperCase());
         String edicioDefecte = "Core Set 2026";
 
         switch (tipus) {
@@ -74,21 +74,20 @@ public class LectorFicheros {
                         dades[7], Boolean.parseBoolean(dades[8]));
             }
             case "TERRA" -> {
-                return new Tierra(nom, desc, raresa, edicioDefecte, new CosteMana(0,0,0,0,0,0),
+                return new Terra(nom, desc, raresa, edicioDefecte, new CostMana(0,0,0,0,0,0),
                         Color.valueOf(dades[4].toUpperCase()), Boolean.parseBoolean(dades[5]));
             }
             case "ENCANTERI" -> {
-                return new Encantamiento(nom, desc, raresa, edicioDefecte, parsejarCost(dades[4]),
-                        dades[5], Boolean.parseBoolean(dades[6]));
+                return new Encanteri(nom, desc, raresa, edicioDefecte, parsejarCost(dades[4]),dades[5], Boolean.parseBoolean(dades[6]));
             }
             default -> throw new IllegalArgumentException("Tipus de carta desconegut: " + tipus);
         }
     }
 
-    private static CosteMana parsejarCost(String costString) {
+    private static CostMana parsejarCost(String costString) {
         String[] c = costString.split(",");
         // Blau, Negre, Vermell, Verd, Blanc, Incolor
-        return new CosteMana(
+        return new CostMana(
             Integer.parseInt(c[4].trim()), Integer.parseInt(c[0].trim()), Integer.parseInt(c[1].trim()), 
             Integer.parseInt(c[2].trim()), Integer.parseInt(c[3].trim()), Integer.parseInt(c[5].trim())
         );

@@ -1,7 +1,7 @@
 package com.mycompany.magic.objdb_the_poly_deck_engine.model;
 import javax.persistence.Entity;
 
-import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Rareza;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Raresa;
 
 @Entity
 public class Criatura extends Carta{
@@ -14,8 +14,8 @@ public class Criatura extends Carta{
         super();
     }
 
-    public Criatura(String nom, String descripcio, Rareza rareza, String edicion, CosteMana coste,int forca, int resistencia, String tipusCriatura, boolean vola) {
-        super(nom, descripcio, rareza, edicion, coste);
+    public Criatura(String nom, String descripcio, Raresa raresa, String edicio, CostMana cost,int forca, int resistencia, String tipusCriatura, boolean vola) {
+        super(nom, descripcio, raresa, edicio, cost);
         this.forca = forca;
         this.resistencia = resistencia;
         this.tipusCriatura = tipusCriatura;

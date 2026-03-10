@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.Carta;
-import com.mycompany.magic.objdb_the_poly_deck_engine.model.Encantamiento;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Encanteri;
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.Jugador;
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.Mazo;
 import com.mycompany.magic.objdb_the_poly_deck_engine.utils.LectorFicheros;
@@ -82,7 +82,7 @@ public class GestorCartas {
      * "Mostra el nom de totes les Criatures que volen i tenen cost negre > 2" 
      */
     public List<String> buscarNomsCriaturesVoladoresFosques() {
-        // En JPQL consultamos la clase 'Criatura', no tablas SQL. Accedemos a 'cost.negre' directamente.
+        // En ObjectDB sol ser més net consultar la filla directament si el filtre és específic.
         String jpql = "SELECT c.nom FROM Criatura c WHERE c.vola = true AND c.cost.negre > 2";
         TypedQuery<String> query = em.createQuery(jpql, String.class);
         return query.getResultList();
@@ -93,7 +93,17 @@ public class GestorCartas {
      * "Mitjana de força de les criatures als mazos d'un jugador concret" [cite: 315]
      */
     public Double calcularMitjanaForcaCriaturesJugador(String nickJugador) {
-        // Navegamos: Jugador -> Mazo -> Carta. Filtramos por tipo Criatura para poder leer 'forca'.
+        // 1. Comprovem si el jugador existeix
+        Long count = em.createQuery("SELECT COUNT(j) FROM Jugador j WHERE j.nick = :nick", Long.class)
+                       .setParameter("nick", nickJugador)
+                       .getSingleResult();
+                       
+        if (count == 0) {
+            System.out.println("ERROR: No s'ha trobat cap jugador amb el nick '" + nickJugador + "'.");
+            return null; // Retornem null per indicar l'error al menú
+        }
+
+        // 2. Si existeix, fem la consulta
         String jpql = "SELECT AVG(c.forca) FROM Criatura c, Jugador j JOIN j.mazos m " +
                       "WHERE j.nick = :nick AND c MEMBER OF m.cartes";
         
@@ -108,10 +118,10 @@ public class GestorCartas {
      * Consulta 3: Cerca per Component Incrustat (@Embedded) [cite: 317]
      * "Encanteris que no costen blau ni blanc (0), però incolor > 3" [cite: 318]
      */
-    public List<Encantamiento> buscarEncanterisIncolorsCars() {
-        // Accedemos a los atributos del @Embeddable 'CostMana' desde la entidad principal [cite: 319]
-        String jpql = "SELECT e FROM Encantamiento e WHERE e.cost.blau = 0 AND e.cost.blanc = 0 AND e.cost.incolor > 3";
-        TypedQuery<Encantamiento> query = em.createQuery(jpql, Encantamiento.class);
+    public List<Encanteri> buscarEncanterisIncolorsCars() {
+        // Modificat Encantamiento per Encanteri i consultant directament a la classe filla.
+        String jpql = "SELECT e FROM Encanteri e WHERE e.cost.blau = 0 AND e.cost.blanc = 0 AND e.cost.incolor > 3";
+        TypedQuery<Encanteri> query = em.createQuery(jpql, Encanteri.class);
         return query.getResultList();
     }
 
@@ -241,15 +251,24 @@ public class GestorCartas {
         em.getTransaction().begin();
         Jugador jugador = em.find(Jugador.class, idJugador);
         
-        if (jugador != null && jugador.getMazos().size() > indexMazoAEsborrar) {
-            // Només traient el mazo de la llista Java, Hibernate/ObjectDB l'esborra de la BD
-            // gràcies a orphanRemoval=true[cite: 120].
-            jugador.getMazos().remove(indexMazoAEsborrar); 
-            em.getTransaction().commit();
-            System.out.println("Mazo eliminat via Orphan Removal.");
-        } else {
+        // Comprovem si el jugador existeix
+        if (jugador == null) {
+            System.out.println("ERROR: No s'ha trobat cap jugador amb l'ID " + idJugador);
             em.getTransaction().rollback();
+            return;
         }
+        
+        // Comprovem si té un mazo en aquest índex
+        if (jugador.getMazos().size() <= indexMazoAEsborrar) {
+            System.out.println("ERROR: El jugador " + jugador.getNick() + " no té cap mazo a l'índex " + indexMazoAEsborrar);
+            em.getTransaction().rollback();
+            return;
+        }
+
+        // Si tot és correcte, esborrem
+        jugador.getMazos().remove(indexMazoAEsborrar); 
+        em.getTransaction().commit();
+        System.out.println("Mazo eliminat correctament via Orphan Removal.");
     }
 
     /**
@@ -270,5 +289,11 @@ public class GestorCartas {
             System.err.println("Error netejant la base de dades: " + e.getMessage());
         }
     }
-    
+
+    /**
+     * Retorna tots els jugadors registrats a la BD.
+     */
+    public List<Jugador> obtenirTotsElsJugadors() {
+        return em.createQuery("SELECT j FROM Jugador j", Jugador.class).getResultList();
+    }
 }
