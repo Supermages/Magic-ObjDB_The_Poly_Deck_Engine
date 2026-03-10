@@ -60,4 +60,28 @@ public abstract class Carta {
 
     public CosteMana getCoste() { return coste; }
     public void setCoste(CosteMana coste) { this.coste = coste; }
+
+    @Override
+    public String toString() {
+        String s = "";
+        s += "╔══════════════════════════════════════╗\n"
+        + "║  " + String.format("%-36s", nom) + "║\n"
+        + "╠══════════════════════════════════════╣\n"
+        + "║  Edició : " + String.format("%-27s", edicion) + "║\n"
+        + "║  Raresa : " + String.format("%-27s", rareza) + "║\n"
+        + "║  Cost   : " + String.format("%-27s", coste) + "║\n"
+        + "╠══════════════════════════════════════╣\n";
+
+        if (descripcio != null && !descripcio.isEmpty()) {
+            String[] lines = descripcio.split("(?<=\\G.{36})");
+            for (String line : lines) {
+                s += "║  " + String.format("%-36s", line) + "║\n";
+            }
+        } else {
+            s += "║  " + String.format("%-36s", "") + "║\n";
+        }
+
+        s += "╚══════════════════════════════════════╝";
+        return s;
+    }
 }

@@ -136,7 +136,7 @@ public class GestorCartas {
         } else {
             for (Carta c : totes) {
                 // Al cridar c.toString(), Java executarà l'override de la filla corresponent!
-                System.out.println(c.getClass().getSimpleName() + " -> " + c.toString());
+                System.out.println(c.toString());
             }
             System.out.println("Total de cartes trobades: " + totes.size());
         }

@@ -30,6 +30,12 @@ public class Encantamiento extends Carta {
     
     @Override
     public String toString() {
-        return "Encanteri [" + super.getNom() + "] - Tipus: " + tipus + " (Instantani: " + esInstantani + ")";
+        String base = super.toString();
+        base = base.substring(0, base.lastIndexOf("╚══════════════════════════════════════╝"));
+        return base +
+               "╠══════════════════════════════════════╣\n" +
+               "║  [ENCANTERI] " + String.format("%-24s", tipus) + "║\n" +
+               "║  Instantani : " + String.format("%-23s", esInstantani ? "Sí" : "No") + "║\n" +
+               "╚══════════════════════════════════════╝";
     }
 }

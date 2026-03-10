@@ -53,9 +53,17 @@ public class Criatura extends Carta{
     public void setVola(boolean vola) {
         this.vola = vola;
     }
-      @Override
+    @Override
     public String toString() {
-        return "Criatura [" + super.getNom() + "] - Tipus: " + tipusCriatura + " (Voladora: " + vola + ")";
+        String base = super.toString();
+        // Remove the last closing line and append creature-specific lines
+        base = base.substring(0, base.lastIndexOf("╚══════════════════════════════════════╝"));
+        return base +
+               "╠══════════════════════════════════════╣\n" +
+               "║  [CRIATURA] " + String.format("%-25s", tipusCriatura) + "║\n" +
+               "║  Força/Resistència : " + String.format("%-16s", forca + " / " + resistencia) + "║\n" +
+               "║  Vola  : " + String.format("%-28s", vola ? "Sí" : "No") + "║\n" +
+               "╚══════════════════════════════════════╝";
     }
     
 }

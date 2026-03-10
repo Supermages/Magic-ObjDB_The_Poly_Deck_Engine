@@ -37,6 +37,12 @@ public class Tierra extends Carta {
     
     @Override
     public String toString() {
-        return "Terra [" + super.getNom() + "] - Produeix: " + produccio + " (Bàsica: " + esBasica + ")";
+        String base = super.toString();
+        base = base.substring(0, base.lastIndexOf("╚══════════════════════════════════════╝"));
+        return base +
+               "╠══════════════════════════════════════╣\n" +
+               "║  [TERRA] Produeix : " + String.format("%-17s", produccio) + "║\n" +
+               "║  Bàsica : " + String.format("%-27s", esBasica ? "Sí" : "No") + "║\n" +
+               "╚══════════════════════════════════════╝";
     }
 }
