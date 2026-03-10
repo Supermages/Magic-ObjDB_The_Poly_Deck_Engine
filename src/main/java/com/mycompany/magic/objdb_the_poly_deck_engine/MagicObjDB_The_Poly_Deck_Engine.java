@@ -227,6 +227,9 @@ public class MagicObjDB_The_Poly_Deck_Engine {
         
         switch (opcio) {
             case 1 -> {
+                System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━( LLISTAT DE CARTES )━━━━━━━━━━━━━━━━━━━━━━━━━");
+                gestor.testLlistarTotesLesCartes();
+                System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━( INTRODUEIX DADES )━━━━━━━━━━━━━━━━━━━━━━━━━");
                 long idDirty = llegirLong("Introdueix l'ID de la Carta a modificar (Dirty Checking): ");
                 System.out.print("Nova descripció: ");
                 String novaDesc = scanner.nextLine();
@@ -236,6 +239,9 @@ public class MagicObjDB_The_Poly_Deck_Engine {
                 System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
             }
             case 2 -> {
+                System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━( LLISTAT DE CARTES )━━━━━━━━━━━━━━━━━━━━━━━━━");
+                gestor.testLlistarTotesLesCartes();
+                System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━( INTRODUEIX DADES )━━━━━━━━━━━━━━━━━━━━━━━━━");
                 long idMerge = llegirLong("Introdueix l'ID de la Carta a fer merge (Detached): ");
                 System.out.print("Nou nom: ");
                 String nouNom = scanner.nextLine();
