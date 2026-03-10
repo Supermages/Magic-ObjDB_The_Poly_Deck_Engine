@@ -7,6 +7,8 @@ import javax.persistence.TypedQuery;
 
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.Carta;
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.Encantamiento;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Jugador;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Mazo;
 import com.mycompany.magic.objdb_the_poly_deck_engine.utils.LectorFicheros;
 
 public class GestorCartas {
@@ -92,8 +94,8 @@ public class GestorCartas {
      */
     public Double calcularMitjanaForcaCriaturesJugador(String nickJugador) {
         // Navegamos: Jugador -> Mazo -> Carta. Filtramos por tipo Criatura para poder leer 'forca'.
-        String jpql = "SELECT AVG(c.forca) FROM Jugador j JOIN j.mazos m JOIN m.cartes c " +
-                      "WHERE j.nick = :nick AND TYPE(c) = Criatura";
+        String jpql = "SELECT AVG(c.forca) FROM Criatura c, Jugador j JOIN j.mazos m " +
+                      "WHERE j.nick = :nick AND c MEMBER OF m.cartes";
         
         TypedQuery<Double> query = em.createQuery(jpql, Double.class);
         query.setParameter("nick", nickJugador);
@@ -122,7 +124,6 @@ public class GestorCartas {
      * Demostra el polimorfisme de JPA: Retornarà Criatures, Terres i Encanteris barrejats.
      */
     public List<Carta> testLlistarTotesLesCartes() {
-        System.out.println("\n=== TESTING: LLISTANT TOTES LES CARTES DE LA BD ===");
         
         // Consulta JPQL ultra-neta. Fes atenció a que no hi ha JOINs.
         String jpql = "SELECT c FROM Carta c";
@@ -139,9 +140,135 @@ public class GestorCartas {
             }
             System.out.println("Total de cartes trobades: " + totes.size());
         }
-        System.out.println("===================================================\n");
         
         return totes;
+    }
+
+    // =========================================================================
+    // OPERACIÓ CREATE: JUGADORS I MAZOS
+    // =========================================================================
+
+    public void crearJugadorAmbMazo(String nick, int nivell, String nomMazo, List<Carta> cartesMazo) {
+        em.getTransaction().begin();
+        try {
+            Jugador jugador = new Jugador();
+            jugador.setNick(nick);
+            jugador.setNivell(nivell);
+            
+            Mazo mazo = new Mazo();
+            mazo.setNom(nomMazo);
+            // La relació requereix CascadeType.PERSIST per desar les cartes [cite: 106]
+            mazo.setCartes(cartesMazo); 
+            
+            jugador.getMazos().add(mazo);
+            
+            // Si Jugador té CascadeType.ALL sobre mazos, això ho guarda tot [cite: 120]
+            em.persist(jugador); 
+            em.getTransaction().commit();
+            System.out.println("Jugador " + nick + " i el seu mazo creats correctament.");
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.err.println("Error creant jugador: " + e.getMessage());
+        }
+    }
+
+    // =========================================================================
+    // OPERACIÓ UPDATE: DIRTY CHECKING I MERGE
+    // =========================================================================
+
+    /**
+     * Tasca A: Demostració de Dirty Checking 
+     */
+    public void actualitzarDescripcioManaged(long idCarta, String novaDescripcio) {
+        em.getTransaction().begin();
+        Carta carta = em.find(Carta.class, idCarta);
+        if (carta != null) {
+            carta.setDescripcio(novaDescripcio);
+            // NO fem em.persist(). JPA detecta el canvi automàticament al fer commit.
+            em.getTransaction().commit();
+            System.out.println("Carta actualitzada via Dirty Checking.");
+        } else {
+            em.getTransaction().rollback();
+        }
+    }
+
+    /**
+     * Tasca B: Demostració de Merge amb objecte Detached 
+     */
+    public void actualitzarNomDetached(long idCarta, String nouNom) {
+        // 1. Recuperem i tanquem (simulem que passa a una altra capa de l'app)
+        Carta cartaDetached = em.find(Carta.class, idCarta);
+        em.close(); 
+        
+        // 2. Modifiquem l'objecte (ara està Detached)
+        cartaDetached.setNom(nouNom);
+        
+        // 3. Obrim nou EM i fem merge
+        EntityManager nouEm = com.mycompany.magic.objdb_the_poly_deck_engine.utils.JPAUtil.getEntityManager();
+        nouEm.getTransaction().begin();
+        
+        nouEm.merge(cartaDetached); // Reenganxem l'objecte al context
+        
+        nouEm.getTransaction().commit();
+        nouEm.close();
+        System.out.println("Carta actualitzada via Merge.");
+    }
+
+    // =========================================================================
+    // OPERACIÓ DELETE: REMOVE I ORPHAN REMOVAL
+    // =========================================================================
+
+    /**
+     * Tasca A: Eliminar per ID 
+     */
+    public void eliminarCartaPerId(long idCarta) {
+        em.getTransaction().begin();
+        Carta carta = em.find(Carta.class, idCarta);
+        if (carta != null) {
+            em.remove(carta);
+            em.getTransaction().commit();
+            System.out.println("Carta eliminada de la BD.");
+        } else {
+            em.getTransaction().rollback();
+        }
+    }
+
+    /**
+     * Tasca B: Demostració d'Orphan Removal 
+     * Requereix que a Jugador hi hagi: @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) [cite: 120]
+     */
+    public void eliminarMazoOrphanRemoval(long idJugador, int indexMazoAEsborrar) {
+        em.getTransaction().begin();
+        Jugador jugador = em.find(Jugador.class, idJugador);
+        
+        if (jugador != null && jugador.getMazos().size() > indexMazoAEsborrar) {
+            // Només traient el mazo de la llista Java, Hibernate/ObjectDB l'esborra de la BD
+            // gràcies a orphanRemoval=true[cite: 120].
+            jugador.getMazos().remove(indexMazoAEsborrar); 
+            em.getTransaction().commit();
+            System.out.println("Mazo eliminat via Orphan Removal.");
+        } else {
+            em.getTransaction().rollback();
+        }
+    }
+
+    /**
+     * Mètode auxiliar per netejar la base de dades abans d'una importació.
+     */
+    public void netejarBaseDades() {
+        System.out.println("AVÍS: Esborrant totes les dades actuals de la BD per fer una importació neta...");
+        em.getTransaction().begin();
+        try {
+            // L'ordre és important per les relacions: primer esborrem els que tenen dependències
+            em.createQuery("DELETE FROM Jugador").executeUpdate();
+            em.createQuery("DELETE FROM Mazo").executeUpdate();
+            em.createQuery("DELETE FROM Carta").executeUpdate();
+            em.getTransaction().commit();
+            System.out.println("Base de dades netejada correctament.");
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            System.err.println("Error netejant la base de dades: " + e.getMessage());
+        }
     }
     
 }

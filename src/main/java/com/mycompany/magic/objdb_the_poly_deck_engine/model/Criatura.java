@@ -5,57 +5,57 @@ import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Rareza;
 
 @Entity
 public class Criatura extends Carta{
-    private int strength;
-    private int resistence;
-    private String type;
-    private boolean flying;
+    private int forca;
+    private int resistencia;
+    private String tipusCriatura;
+    private boolean vola;
 
     public Criatura() {
         super();
     }
 
-    public Criatura(String nom, String descripcio, Rareza rareza, String edicion, CosteMana coste,int strength, int resistence, String type, boolean flying) {
+    public Criatura(String nom, String descripcio, Rareza rareza, String edicion, CosteMana coste,int forca, int resistencia, String tipusCriatura, boolean vola) {
         super(nom, descripcio, rareza, edicion, coste);
-        this.strength = strength;
-        this.resistence = resistence;
-        this.type = type;
-        this.flying = flying;
+        this.forca = forca;
+        this.resistencia = resistencia;
+        this.tipusCriatura = tipusCriatura;
+        this.vola = vola;
     }
 
-    public int getStrength() {
-        return strength;
+    public int getForca() {
+        return forca;
     }
 
-    public void setStrength(int strength) {
-        this.strength = strength;
+    public void setForca(int forca) {
+        this.forca = forca;
     }
 
-    public int getResistence() {
-        return resistence;
+    public int getResistencia() {
+        return resistencia;
     }
 
-    public void setResistence(int resistence) {
-        this.resistence = resistence;
+    public void setResistencia(int resistencia) {
+        this.resistencia = resistencia;
     }
 
-    public String getType() {
-        return type;
+    public String getTipusCriatura() {
+        return tipusCriatura;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTipusCriatura(String tipusCriatura) {
+        this.tipusCriatura = tipusCriatura;
     }
 
-    public boolean isFlying() {
-        return flying;
+    public boolean isVola() {
+        return vola;
     }
 
-    public void setFlying(boolean flying) {
-        this.flying = flying;
+    public void setVola(boolean vola) {
+        this.vola = vola;
     }
       @Override
     public String toString() {
-        return "Criatura [" + super.getNom() + "] - Tipus: " + type + " (Voladora: " + flying + ")";
+        return "Criatura [" + super.getNom() + "] - Tipus: " + tipusCriatura + " (Voladora: " + vola + ")";
     }
     
 }

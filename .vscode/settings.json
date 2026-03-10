@@ -1,3 +1,13 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "sqltools.connections": [
+        {
+            "dbType": "Custom",
+            "trimResult": true,
+            "previewLimit": 50,
+            "driver": "SqlTools Odbc",
+            "name": "polydeck.odb",
+            "connectionString": "polydeck.odb"
+        }
+    ]
 }
