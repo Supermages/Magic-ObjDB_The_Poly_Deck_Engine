@@ -67,7 +67,7 @@ public abstract class Carta {
         s += "╔══════════════════════════════════════╗\n"
         + "║  " + String.format("%-36s", nom) + "║\n"
         + "╠══════════════════════════════════════╣\n"
-        + "║  Id      : " + String.format("%-26s", (id == null ? "" : id.toString())) + "║\n"
+        + "║  Id     : " + String.format("%-27s", (id == null ? "" : id.toString())) + "║\n"
         + "║  Edició : " + String.format("%-27s", edicio) + "║\n"
         + "║  Raresa : " + String.format("%-27s", raresa) + "║\n"
         + "║  Cost   : " + String.format("%-27s", cost) + "║\n"

@@ -109,13 +109,24 @@ public class MagicObjDB_The_Poly_Deck_Engine {
                 break;
                 
             case 2:
-                List<Carta> totes = gestor.testLlistarTotesLesCartes();
+                List<Carta> totes = gestor.obtenirTotesLesCartes();
                 if (totes.size() < 3) {
                     System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━( ERROR )━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
                     System.out.println("Has d'importar cartes prèviament per tenir-ne almenys 3 per al mazo.");
                     System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
                 } else {
-                    System.out.print("Nick del Jugador: ");
+                    System.out.println("━━━━━━━━━━━━━━━━━━━━━━( CREANT JUGADOR I MAZO )━━━━━━━━━━━━━━━━━━━━━━");
+                    List<Jugador> jugadors = gestor.obtenirTotsElsJugadors();
+                    if (jugadors.isEmpty()) {
+                        System.out.println("No hi ha jugadors registrats actualment.");
+                    } else {
+                        System.out.println("Jugadors existents:");
+                        for (Jugador j : jugadors) {
+                            System.out.println(" - " + j.getNick());
+                        }
+                    }
+                    System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+                    System.out.print("Nick del Jugador (Nou o Existent): ");
                     String nick = scanner.nextLine();
                     System.out.print("Nom del Mazo: ");
                     String nomMazo = scanner.nextLine();
@@ -173,7 +184,7 @@ public class MagicObjDB_The_Poly_Deck_Engine {
                 System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
             }
             case 4 ->{
-                System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━( CONSULTA JPQL )━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+                System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━( CONSULTA JPQL )━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
                 if (mostrarJugadors()) {
                     System.out.print("\nIntrodueix el Nick del Jugador de la llista: ");
                     String nickBusqueda = scanner.nextLine();
@@ -191,7 +202,7 @@ public class MagicObjDB_The_Poly_Deck_Engine {
                 if(encanteris.isEmpty()) {
                     System.out.println("No s'han trobat encanteris amb aquests criteris.");
                 } else {
-                    encanteris.forEach(enc -> System.out.println("- " + enc.toString()));
+                    encanteris.forEach(enc -> System.out.println(enc.toString()));
                 }
                 System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
             }
