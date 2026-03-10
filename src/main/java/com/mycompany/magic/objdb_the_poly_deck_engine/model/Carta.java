@@ -67,14 +67,25 @@ public abstract class Carta {
         s += "╔══════════════════════════════════════╗\n"
         + "║  " + String.format("%-36s", nom) + "║\n"
         + "╠══════════════════════════════════════╣\n"
+        + "║  Id      : " + String.format("%-26s", (id == null ? "" : id.toString())) + "║\n"
         + "║  Edició : " + String.format("%-27s", edicion) + "║\n"
         + "║  Raresa : " + String.format("%-27s", rareza) + "║\n"
         + "║  Cost   : " + String.format("%-27s", coste) + "║\n"
         + "╠══════════════════════════════════════╣\n";
 
         if (descripcio != null && !descripcio.isEmpty()) {
-            String[] lines = descripcio.split("(?<=\\G.{36})");
-            for (String line : lines) {
+            String[] lines = descripcio.split(" ");
+            String line = "";
+            for (String word : lines) {
+                if (line.length() + word.length() + 1 > 36) {
+                    s += "║  " + String.format("%-36s", line) + "║\n";
+                    line = word;
+                } else {
+                    if (line.length() > 0) line += " ";
+                    line += word;
+                }
+            }
+            if (line.length() > 0) {
                 s += "║  " + String.format("%-36s", line) + "║\n";
             }
         } else {
