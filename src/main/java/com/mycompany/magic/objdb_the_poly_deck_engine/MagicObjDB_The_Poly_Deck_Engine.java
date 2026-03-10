@@ -7,7 +7,8 @@ import javax.persistence.EntityManager;
 
 import com.mycompany.magic.objdb_the_poly_deck_engine.manager.GestorCartas;
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.Carta;
-import com.mycompany.magic.objdb_the_poly_deck_engine.model.Encantamiento;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Encanteri;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.Jugador;
 import com.mycompany.magic.objdb_the_poly_deck_engine.utils.JPAUtil;
 
 /**
@@ -150,18 +151,18 @@ public class MagicObjDB_The_Poly_Deck_Engine {
         int opcio = llegirInt("\nTria una opció: ");
         
         switch (opcio) {
-            case 1:
+            case 1 -> {
                 System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━( LLISTAT DE CARTES )━━━━━━━━━━━━━━━━━━━━━━━━━━━");
                 gestor.testLlistarTotesLesCartes();
                 System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                break;
-            case 2:
+            }
+            case 2 -> {
                 long idBuscar = llegirLong("Introdueix l'ID de la Carta a buscar: ");
                 System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━( RESULTATS CACHÉ L1 )━━━━━━━━━━━━━━━━━━━━━━━━━━");
                 gestor.buscarPerId(idBuscar);
                 System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                break;
-            case 3:
+            }
+            case 3 -> {
                 System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━( CONSULTA JPQL )━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
                 List<String> noms = gestor.buscarNomsCriaturesVoladoresFosques();
                 if(noms.isEmpty()) {
@@ -170,29 +171,33 @@ public class MagicObjDB_The_Poly_Deck_Engine {
                     noms.forEach(nom -> System.out.println("- " + nom));
                 }
                 System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                break;
-            case 4:
-                System.out.print("Introdueix el Nick del Jugador: ");
-                String nickBusqueda = scanner.nextLine();
+            }
+            case 4 ->{
                 System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━( CONSULTA JPQL )━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                Double mitjana = gestor.calcularMitjanaForcaCriaturesJugador(nickBusqueda);
-                System.out.println("La mitjana de força de les criatures de " + nickBusqueda + " és: " + mitjana);
+                if (mostrarJugadors()) {
+                    System.out.print("\nIntrodueix el Nick del Jugador de la llista: ");
+                    String nickBusqueda = scanner.nextLine();
+                    Double mitjana = gestor.calcularMitjanaForcaCriaturesJugador(nickBusqueda);
+                    
+                    if (mitjana != null) {
+                        System.out.println("La mitjana de força de les criatures de " + nickBusqueda + " és: " + mitjana);
+                    }
+                }
                 System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                break;
-            case 5:
+            }
+            case 5 -> {
                 System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━( CONSULTA JPQL )━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                List<Encantamiento> encanteris = gestor.buscarEncanterisIncolorsCars();
+                List<Encanteri> encanteris = gestor.buscarEncanterisIncolorsCars();
                 if(encanteris.isEmpty()) {
                     System.out.println("No s'han trobat encanteris amb aquests criteris.");
                 } else {
                     encanteris.forEach(enc -> System.out.println("- " + enc.toString()));
                 }
                 System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                break;
-            case 0:
-                break;
-            default:
-                System.out.println("Opció no vàlida.");
+            }
+            case 0 -> {
+            }
+            default -> System.out.println("Opció no vàlida.");
         }
     }
 
@@ -210,7 +215,7 @@ public class MagicObjDB_The_Poly_Deck_Engine {
         int opcio = llegirInt("\nTria una opció: ");
         
         switch (opcio) {
-            case 1:
+            case 1 -> {
                 long idDirty = llegirLong("Introdueix l'ID de la Carta a modificar (Dirty Checking): ");
                 System.out.print("Nova descripció: ");
                 String novaDesc = scanner.nextLine();
@@ -218,8 +223,8 @@ public class MagicObjDB_The_Poly_Deck_Engine {
                 System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━( RESULTATS UPDATE )━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
                 gestor.actualitzarDescripcioManaged(idDirty, novaDesc);
                 System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                break;
-            case 2:
+            }
+            case 2 -> {
                 long idMerge = llegirLong("Introdueix l'ID de la Carta a fer merge (Detached): ");
                 System.out.print("Nou nom: ");
                 String nouNom = scanner.nextLine();
@@ -231,11 +236,10 @@ public class MagicObjDB_The_Poly_Deck_Engine {
                 // Reobrim l'EM per a seguir utilitzant el menú després del test detached
                 em = JPAUtil.getEntityManager();
                 gestor = new GestorCartas(em);
-                break;
-            case 0:
-                break;
-            default:
-                System.out.println("Opció no vàlida.");
+            }
+            case 0 -> {
+            }
+            default -> System.out.println("Opció no vàlida.");
         }
     }
 
@@ -253,25 +257,26 @@ public class MagicObjDB_The_Poly_Deck_Engine {
         int opcio = llegirInt("\nTria una opció: ");
         
         switch (opcio) {
-            case 1:
+            case 1 -> {
                 long idBorrar = llegirLong("Introdueix l'ID de la Carta a esborrar: ");
                 
                 System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━( RESULTATS ELIMINACIÓ )━━━━━━━━━━━━━━━━━━━━━━━━");
                 gestor.eliminarCartaPerId(idBorrar);
                 System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                break;
-            case 2:
-                long idJugador = llegirLong("Introdueix l'ID del Jugador propietari del mazo: ");
-                int indexMazo = llegirInt("Introdueix l'índex del mazo a esborrar (ex: 0 pel primer): ");
-                
+            }
+            case 2 -> {
                 System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━( RESULTATS ELIMINACIÓ )━━━━━━━━━━━━━━━━━━━━━━━━");
-                gestor.eliminarMazoOrphanRemoval(idJugador, indexMazo);
+                if (mostrarJugadors()) {
+                    long idJugador = llegirLong("\nIntrodueix l'ID del Jugador propietari del mazo: ");
+                    int indexMazo = llegirInt("Introdueix l'índex del mazo a esborrar (ex: 0 pel primer): ");
+                    
+                    gestor.eliminarMazoOrphanRemoval(idJugador, indexMazo);
+                }
                 System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                break;
-            case 0:
-                break;
-            default:
-                System.out.println("Opció no vàlida.");
+            }
+            case 0 -> {
+            }
+            default -> System.out.println("Opció no vàlida.");
         }
     }
 
@@ -297,5 +302,25 @@ public class MagicObjDB_The_Poly_Deck_Engine {
         long resultat = scanner.nextLong();
         scanner.nextLine(); // Netejar el salt de línia
         return resultat;
+    }
+
+    /**
+     * Llista els jugadors per pantalla i retorna true si n'hi ha algun.
+     */
+    private static boolean mostrarJugadors() {
+        List<Jugador> jugadors = gestor.obtenirTotsElsJugadors();
+        if (jugadors.isEmpty()) {
+            System.out.println("Actualment no hi ha cap jugador registrat.");
+            return false;
+        }
+        
+        System.out.println("--- JUGADORS DISPONIBLES ---");
+        for (Jugador j : jugadors) {
+            System.out.println("ID: " + j.getId() + " | Nick: " + j.getNick() + 
+                               " | Nivell: " + j.getNivell() + 
+                               " | Mazos creats: " + j.getMazos().size());
+        }
+        System.out.println("----------------------------");
+        return true;
     }
 }

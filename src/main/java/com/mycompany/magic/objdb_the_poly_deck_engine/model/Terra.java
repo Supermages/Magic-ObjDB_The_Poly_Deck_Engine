@@ -5,22 +5,22 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Color;
-import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Rareza;
+import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Raresa;
 
 @Entity
-public class Tierra extends Carta {
+public class Terra extends Carta {
 
     @Enumerated(EnumType.STRING) 
     private Color produccio; 
     
     private boolean esBasica; 
 
-    public Tierra() {
+    public Terra() {
         super();
     }
 
     // Constructor completo
-    public Tierra(String nom, String descripcio, Rareza raresa, String edicio, CosteMana cost, 
+    public Terra(String nom, String descripcio, Raresa raresa, String edicio, CostMana cost, 
                  Color produccio, boolean esBasica) {
         
         super(nom, descripcio, raresa, edicio, cost); 
