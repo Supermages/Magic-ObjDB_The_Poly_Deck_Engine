@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!-- Identificadors del projecte -->
     <groupId>com.mycompany</groupId>
     <artifactId>Magic-ObjDB_The_Poly_Deck_Engine</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    
+    <!-- Propietats generals de construcció i configuració -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Versió de Java utilitzada per a compilar -->
         <maven.compiler.release>21</maven.compiler.release>
+        <!-- Classe principal a executar -->
         <exec.mainClass>com.mycompany.magic.objdb_the_poly_deck_engine.MagicObjDB_The_Poly_Deck_Engine</exec.mainClass>
     </properties>
+    
+    <!-- Repositoris addicionals per descarregar dependències -->
     <repositories>
         <repository>
             <id>objectdb</id>
@@ -18,15 +25,20 @@
         </repository>
     </repositories>
 
+    <!-- Dependències del projecte -->
     <dependencies>
-        <dependency>
+        <!-- Dependència per a ObjectDB, base de dades orientada a objectes -->
+        <dependency> 
             <groupId>com.objectdb</groupId>
             <artifactId>objectdb</artifactId>
             <version>2.8.8</version> 
         </dependency>
     </dependencies>
+    
+    <!-- Configuració de la construcció del projecte -->
     <build>
         <plugins>
+            <!-- Plugin per a compilar el projecte amb la versió desitjada de Java -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

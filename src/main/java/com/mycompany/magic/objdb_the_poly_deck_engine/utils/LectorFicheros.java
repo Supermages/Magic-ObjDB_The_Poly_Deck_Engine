@@ -26,24 +26,24 @@ public class LectorFicheros {
             while ((línia = br.readLine()) != null) {
                 línia = línia.trim();
                 
-                // Ignorar comentarios y líneas vacías
+                // Ignorar comentaris i línies buides
                 if (línia.startsWith("#") || línia.isEmpty()) {
                     continue;
                 }
 
-                // Si detecta una nueva carta, procesa la anterior (si existe)
+                // Si detecta una nova carta, processa l'anterior (si existeix)
                 if (línia.startsWith("CRIATURA") || línia.startsWith("TERRA") || línia.startsWith("ENCANTERI")) {
                     if (!líniaAcumulada.isEmpty()) {
                         cartesLlegides.add(parsejarLinia(líniaAcumulada));
                     }
                     líniaAcumulada = línia;
                 } else {
-                    // Une la línea rota (ej. la descripción del Espectre)
+                    // Uneix la línia trencada (ex. la descripció de l'Espectre)
                     líniaAcumulada += " " + línia;
                 }
             }
             
-            // Añadir la última carta
+            // Afegir l'última carta
             if (!líniaAcumulada.isEmpty()) {
                 cartesLlegides.add(parsejarLinia(líniaAcumulada));
             }

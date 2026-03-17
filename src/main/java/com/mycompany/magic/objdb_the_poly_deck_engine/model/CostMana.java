@@ -4,16 +4,16 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class CostMana {
-    
-    // Los colores del maná según el documento de diseño
-    private int blanc;   
-    private int blau;    
-    private int negre;   
-    private int vermell; 
-    private int verd;  
+
+    // Els colors del manà segons el document de disseny
+    private int blanc;
+    private int blau;
+    private int negre;
+    private int vermell;
+    private int verd;
     private int incolor; 
 
-    // Constructor vacío obligatorio para JPA
+    // Constructor buit obligatori per a JPA
     public CostMana() {}
 
     public CostMana(int blanc, int blau, int negre, int vermell, int verd, int incolor) {

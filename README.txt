@@ -1,29 +1,29 @@
 src/main/java/com/polydeck/engine/
 │
-├── MagicObjDB_The_Poly_Deck_Engine.java  <-- Tu clase Main (Punto de entrada y orquestación)
+├── MagicObjDB_The_Poly_Deck_Engine.java  <-- Classe main (Punt d'entrada i orquestració)
 │
-├── model/                                <-- Entidades JPA (El Dominio)
-│   ├── Carta.java                        (Clase abstracta base)
-│   ├── Criatura.java                     (Especialización)
-│   ├── Terra.java                        (Especialización)
-│   ├── Encanteri.java                    (Especialización)
-│   ├── CostMana.java                     (Componente Incrustado)
-│   ├── Mazo.java                         (Agregador polimórfico)
-│   ├── Jugador.java                      (Propietario)
+├── model/                                <-- Entitats JPA (El Domini)
+│   ├── Carta.java                        (Classe abstracta base)
+│   ├── Criatura.java                     (Especialització)
+│   ├── Terra.java                        (Especialització)
+│   ├── Encanteri.java                    (Especialització)
+│   ├── CostMana.java                     (Component Incrustat)
+│   ├── Mazo.java                         (Agregador polimòrfic)
+│   ├── Jugador.java                      (Propietari)
 │   └── enums/
-│       ├── Raresa.java                   (COMUNA, INFREQÜENT, RARA, MITICA)
-│       └── Color.java                    (Para las tierras: VERMELL, BLAU, etc.)
+│       ├── Raresa.java                   (COMUNA, INFREQÜENT, RARA, MÍTICA)
+│       └── Color.java                    (Per a les terres: VERMELL, BLAU, etc.)
 │
-├── manager/                              <-- Lógica de negocio y persistencia
-│   └── GestorCartes.java                 (Maneja el EntityManager y las consultas)
+├── manager/                              <-- Lògica de negoci i persistència
+│   └── GestorCartes.java                 (Maneja l'EntityManager i les consultes)
 │
-└── utils/                                <-- Utilidades auxiliares
-    └── LectorFitxers.java                (Para parsear 'cartes.txt')
+└── utils/                                <-- Utilitats auxiliars
+    └── LectorFitxers.java                (Per a parsejar 'cartes.txt')
 
 src/main/resources/
 │
 ├── META-INF/
-│   └── persistence.xml                   (Configuración de ObjectDB/JPA)
+│   └── persistence.xml                   (Configuració d'ObjectDB/JPA)
 │
 └── data/
-    └── cartes.txt                        (Fichero de carga inicial de datos)
+    └── cartes.txt                        (Fitxer de càrrega inicial de dades)

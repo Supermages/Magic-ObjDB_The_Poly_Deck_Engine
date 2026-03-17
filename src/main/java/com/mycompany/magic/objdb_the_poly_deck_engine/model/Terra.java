@@ -19,7 +19,7 @@ public class Terra extends Carta {
         super();
     }
 
-    // Constructor completo
+    // Constructor complert
     public Terra(String nom, String descripcio, Raresa raresa, String edicio, CostMana cost, 
                  Color produccio, boolean esBasica) {
         
