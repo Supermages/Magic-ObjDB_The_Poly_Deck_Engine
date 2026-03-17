@@ -20,17 +20,12 @@ public class JPAUtil {
         }
     }
 
-    /**
-     * Equivalent a openSession() en Hibernate.
-     * Retorna un EntityManager perquè el GestorCartes treballi.
-     */
+    // Retorna un EntityManager perquè el GestorCartes treballi.
     public static EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    /**
-     * Tanca la factoria global en apagar l'aplicació.
-     */
+    // Tanca la factoria global en apagar l'aplicació.
     public static void shutdown() {
         if (emf != null && emf.isOpen()) {
             emf.close();
