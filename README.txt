@@ -1,3 +1,5 @@
+Estructura del projecte:
+
 src/main/java/com/polydeck/engine/
 │
 ├── MagicObjDB_The_Poly_Deck_Engine.java  <-- Classe main (Punt d'entrada i orquestració)
