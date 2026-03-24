@@ -1,5 +1,6 @@
 Estructura del projecte:
 
+```
 src/main/java/com/polydeck/engine/
 │
 ├── MagicObjDB_The_Poly_Deck_Engine.java  <-- Classe main (Punt d'entrada i orquestració)
@@ -29,6 +30,7 @@ src/main/resources/
 │
 └── data/
     └── cartes.txt                        (Fitxer de càrrega inicial de dades)
+```
 
 > La seguent classe es el diagrama, des de github es pot visualitzar directament, si no hi ha una imatge en assets/Diagrama.png
 ```mermaid
