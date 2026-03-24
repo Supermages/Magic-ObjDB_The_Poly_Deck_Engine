@@ -6,9 +6,11 @@ import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Raresa;
 
 @Entity 
 public class Encanteri extends Carta { 
+    // Variables de la clase
     private String tipus; 
     private boolean esInstantani; 
 
+    // Constructors de la clase
     public Encanteri() {
         super();
     }
@@ -21,12 +23,14 @@ public class Encanteri extends Carta {
         this.esInstantani = esInstantani;
     }
 
+    // Getters i setters
     public String getTipus() { return tipus; }
     public void setTipus(String tipus) { this.tipus = tipus; }
 
     public boolean isEsInstantani() { return esInstantani; }
     public void setEsInstantani(boolean esInstantani) { this.esInstantani = esInstantani; }
     
+    // toString
     @Override
     public String toString() {
         String base = super.toString();

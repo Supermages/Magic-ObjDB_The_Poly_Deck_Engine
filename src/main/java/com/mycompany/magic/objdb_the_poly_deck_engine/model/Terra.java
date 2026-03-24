@@ -10,6 +10,7 @@ import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Raresa;
 @Entity
 public class Terra extends Carta {
 
+    // Variables de la clase
     @Enumerated(EnumType.STRING) 
     private Color produccio; 
     
@@ -35,6 +36,7 @@ public class Terra extends Carta {
     public boolean isEsBasica() { return esBasica; }
     public void setEsBasica(boolean esBasica) { this.esBasica = esBasica; }
     
+    // Metodo toString
     @Override
     public String toString() {
         String base = super.toString();

@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Mazo {
 
+    // Variables de la clase
     @Id
     @GeneratedValue
     private Long id; 
@@ -21,6 +22,7 @@ public class Mazo {
     @ManyToMany(cascade = CascadeType.PERSIST) 
     private List<Carta> cartes = new ArrayList<>();
 
+    // Constructors de la clase
     public Mazo() {}
 
     public Mazo(String nom, LocalDate dataCreacio) {
@@ -28,6 +30,7 @@ public class Mazo {
         this.dataCreacio = dataCreacio;
     }
 
+    // Getters i setters
     public Long getId() { return id; }
 
     public String getNom() { return nom; }
@@ -47,6 +50,7 @@ public class Mazo {
         this.cartes.remove(carta);
     }
     
+    // toString
     @Override
     public String toString() {
         return "Mazo: " + nom + " (Cartas: " + cartes.size() + ")";

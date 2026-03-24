@@ -44,6 +44,7 @@ public class CostMana {
     public int getIncolor() { return incolor; }
     public void setIncolor(int incolor) { this.incolor = incolor; }
     
+    // toString
     @Override
     public String toString() {
         return "{" + blau + "U, " + negre + "B, " + vermell + "R, " + verd + "G, " + blanc + "W, " + incolor + "C}";

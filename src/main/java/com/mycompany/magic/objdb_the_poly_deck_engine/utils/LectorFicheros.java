@@ -16,6 +16,7 @@ import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Raresa;
 
 public class LectorFicheros {
 
+    // Funcio per a llegir el fitxer amb les cartes
     public static List<Carta> llegirCartes(String rutaArxiu) {
         List<Carta> cartesLlegides = new ArrayList<>();
         
@@ -55,18 +56,21 @@ public class LectorFicheros {
         return cartesLlegides;
     }
 
+    // Metode per a rebre una linea de un fitxer, y procesarla.
     private static Carta parsejarLinia(String línia) {
         String[] dades = línia.split("\\|");
         for (int i = 0; i < dades.length; i++) {
             dades[i] = dades[i].trim();
         }
 
+        // Aqui agafem totes les dades
         String tipus = dades[0];
         String nom = dades[1];
         String desc = dades[2];
         Raresa raresa = Raresa.valueOf(dades[3].toUpperCase());
         String edicioDefecte = "Core Set 2026";
 
+        // I aqui, segons el seu tipus, creem una clase o una altra
         switch (tipus) {
             case "CRIATURA" -> {
                 return new Criatura(nom, desc, raresa, edicioDefecte, parsejarCost(dades[4]),
@@ -84,6 +88,7 @@ public class LectorFicheros {
         }
     }
 
+    // Aquesta funcio es exclusivament per formatejar el cost de mana.
     private static CostMana parsejarCost(String costString) {
         String[] c = costString.split(",");
         // Blau, Negre, Vermell, Verd, Blanc, Incolor

@@ -16,6 +16,7 @@ import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Raresa;
 @Inheritance(strategy = InheritanceType.JOINED) 
 public abstract class Carta {
 
+    // Variables de la clase
     @Id 
     @GeneratedValue
     private Long id;
@@ -33,6 +34,7 @@ public abstract class Carta {
     @Embedded
     private CostMana cost; 
 
+    // Constructors de la clase
     public Carta() {}
 
     public Carta(String nom, String descripcio, Raresa raresa, String edicio, CostMana coste) {
@@ -61,6 +63,7 @@ public abstract class Carta {
     public CostMana getCoste() { return cost; }
     public void setCoste(CostMana coste) { this.cost = coste; }
 
+    // toString de la carta
     @Override
     public String toString() {
         String s = "";

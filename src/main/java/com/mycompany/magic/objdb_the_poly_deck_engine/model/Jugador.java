@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Jugador {
 
+    // Variables de la clase
     @Id
     @GeneratedValue
     private Long id; 
@@ -23,6 +24,7 @@ public class Jugador {
     @ManyToMany 
     private List<Carta> colleccio = new ArrayList<>(); 
 
+    // Constructors de la clase
     public Jugador() {}
 
     public Jugador(String nick, int nivell) {

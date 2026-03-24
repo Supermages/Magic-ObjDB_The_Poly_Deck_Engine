@@ -5,11 +5,13 @@ import com.mycompany.magic.objdb_the_poly_deck_engine.model.enums.Raresa;
 
 @Entity
 public class Criatura extends Carta{
+    // Variables de la clase
     private int forca;
     private int resistencia;
     private String tipusCriatura;
     private boolean vola;
 
+    // Constructor de la clase
     public Criatura() {
         super();
     }
@@ -22,6 +24,7 @@ public class Criatura extends Carta{
         this.vola = vola;
     }
 
+    // Getters i setters
     public int getForca() {
         return forca;
     }
@@ -53,10 +56,10 @@ public class Criatura extends Carta{
     public void setVola(boolean vola) {
         this.vola = vola;
     }
+    // toString
     @Override
     public String toString() {
         String base = super.toString();
-        // Remove the last closing line and append creature-specific lines
         base = base.substring(0, base.lastIndexOf("╚══════════════════════════════════════╝"));
         return base +
                "╠══════════════════════════════════════╣\n" +
